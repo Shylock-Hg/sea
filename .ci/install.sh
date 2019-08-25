@@ -62,8 +62,8 @@ EOF
 main() {
 #    install_osx_dependencies
     install_rustup
-    install_targets
-    configure_cargo
+#    install_targets
+#    configure_cargo
 }
 
 main
