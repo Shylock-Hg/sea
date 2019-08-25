@@ -9,6 +9,9 @@
 
 # build, test and generate docs in this phase
 
+# Where rustup gets installed.
+export PATH="$PATH:$HOME/.cargo/bin"
+
 set -ex
 
 . "$(dirname $0)/utils.sh"
