@@ -11,7 +11,7 @@
 # Where rustup gets installed.
 export PATH="$PATH:$HOME/.cargo/bin"
 
-readonly BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}"/.. )" && pwd )"
+readonly BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 set -ex
 
