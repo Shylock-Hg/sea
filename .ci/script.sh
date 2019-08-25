@@ -15,11 +15,11 @@ set -ex
 
 main() {
     # Test a normal debug build.
-    cargo build --target "$TARGET" --verbose
+    cargo build --verbose
 
     # Show the output of the most recent build.rs stderr.
     set +x
-    stderr="$(find "target/$TARGET/debug" -name stderr -print0 | xargs -0 ls -t | head -n1)"
+    stderr="$(find "target/debug" -name stderr -print0 | xargs -0 ls -t | head -n1)"
     if [ -s "$stderr" ]; then
       echo "===== $stderr ====="
       cat "$stderr"
@@ -34,8 +34,7 @@ main() {
     fi
 
     # Run tests for ripgrep and all sub-crates.
-    cargo test --target "$TARGET" --verbose
-    cargo bench --target "$TARGET" --verbose
+    cargo test --verbose
 }
 
 main
