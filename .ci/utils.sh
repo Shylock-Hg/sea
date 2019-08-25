@@ -21,18 +21,18 @@ cargo_out_dir() {
 }
 
 host() {
-    case "$TRAVIS_OS_NAME" in
-        linux)
+    case $(uname) in
+        Linux)
             echo x86_64-unknown-linux-gnu
             ;;
-        osx)
+        Darwin)
             echo x86_64-apple-darwin
             ;;
     esac
 }
 
 architecture() {
-    case "$TARGET" in
+    case $(uname -m) in
         x86_64-*)
             echo amd64
             ;;
@@ -74,15 +74,15 @@ is_arm() {
 }
 
 is_linux() {
-    case "$TRAVIS_OS_NAME" in
-        linux) return 0 ;;
+    case $(uname) in
+        Linux) return 0 ;;
         *)     return 1 ;;
     esac
 }
 
 is_osx() {
-    case "$TRAVIS_OS_NAME" in
-        osx) return 0 ;;
+    case $(uname) in
+        Darwin) return 0 ;;
         *)   return 1 ;;
     esac
 }
