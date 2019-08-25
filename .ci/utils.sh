@@ -1,5 +1,3 @@
-#! /usr/bin/env sh
-
 ###############################################################################
 #!  \brief  
 #         Various utility functions used through CI.

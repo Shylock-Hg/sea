@@ -1,4 +1,4 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
 
 ###############################################################################
 #!  \brief install stuff needed for the `script` phase
