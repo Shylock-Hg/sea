@@ -18,14 +18,14 @@ main() {
     cargo build --verbose
 
     # Show the output of the most recent build.rs stderr.
-    set +x
-    stderr="$(find "target/debug" -name stderr -print0 | xargs -0 ls -t | head -n1)"
-    if [ -s "$stderr" ]; then
-      echo "===== $stderr ====="
-      cat "$stderr"
-      echo "====="
-    fi
-    set -x
+#    set +x
+#    stderr="$(find "target/debug" -name stderr -print0 | xargs -0 ls -t | head -n1)"
+#    if [ -s "$stderr" ]; then
+#      echo "===== $stderr ====="
+#      cat "$stderr"
+#      echo "====="
+#    fi
+#    set -x
 
     # Apparently tests don't work on arm, so just bail now. I guess we provide
     # ARM releases on a best effort basis?
