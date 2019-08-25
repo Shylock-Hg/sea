@@ -54,6 +54,7 @@ impl Solution {
         //   columns are exhausted. The key here is that we can get rid of a
         //   whole row or column due to the two properties of the matrix
         //   specified above.
+        // This procedure just like search in BST(Binary Search Tree)
         // If you have finished leetcode problem "240. Search a 2D Matrix II",
         //   you will find that this is exactly the same problem, except now of
         //   the two indices, the first has to be smaller than the second.
