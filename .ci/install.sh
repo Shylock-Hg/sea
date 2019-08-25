@@ -11,13 +11,15 @@
 # Where rustup gets installed.
 export PATH="$PATH:$HOME/.cargo/bin"
 
+readonly BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}"/.. )" && pwd )"
+
 set -ex
 
 . "$(dirname $0)/utils.sh"
 
 install_rustup() {
     curl https://sh.rustup.rs -sSf \
-      | sh -s -- -y --default-toolchain="$TRAVIS_RUST_VERSION"
+      | sh -s -- -y --default-toolchain="$(cat $BASEDIR/rust-toolchain)"
     rustc -V
     cargo -V
 }
