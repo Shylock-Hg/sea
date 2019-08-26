@@ -78,6 +78,46 @@ impl Solution {
         }
         return vec![];
     }
+
+    /// 0633. Sum of Square Numbers
+    /// Given a non-negative integer c, your task is to decide whether there're
+    /// two integers a and b such that a2 + b2 = c.
+    pub fn judge_square_sum(c: i32) -> bool {
+        // This is same as #0167 in algorithm level
+        // Search in 0~N Marix Solution Space, BST search method
+        // O(N)
+        // assert!(c >= 0);
+        // let mut i = 0;
+        // let mut j = c;
+        // while i <= j {
+        //     let r = i*i + j*j;
+        //     if r == c {
+        //          return true;
+        //     } else if r < c {
+        //         i += 1;
+        //     } else {
+        //         j -= 1;
+        //     }
+        // }
+        // return false;
+
+        // Search in 0~SQRT(N) Matrix Solution Space, BST search method
+        // O(SQRT(N))
+        assert!(c >= 0);
+        let mut i = 0;
+        let mut j = (c as f32).sqrt() as i32;
+        while i <= j {
+            let r = i * i + j * j;
+            if r == c {
+                return true;
+            } else if r < c {
+                i += 1;
+            } else {
+                j -= 1;
+            }
+        }
+        return false;
+    }
 }
 
 fn main() {
@@ -95,5 +135,11 @@ mod testing {
             i == (v[(Solution::two_sum_2(&v, i)[0 as usize] - 1) as usize]
                 + v[(Solution::two_sum_2(&v, i)[1 as usize] - 1) as usize])
         );
+    }
+
+    #[test]
+    fn test_judge_square_sum() {
+        let num = 5;
+        assert!(true == Solution::judge_square_sum(num));
     }
 }
