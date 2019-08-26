@@ -79,6 +79,36 @@ impl Solution {
         return vec![];
     }
 
+    /// 0345. Reverse Vowels of a String
+    /// Write a function that takes a string as input and reverse only the
+    /// vowels of a string.
+    pub fn reverse_vowels(s: String) -> String {
+        let mut r = s.clone();
+        if s.len() == 0 {
+            return r;
+        }
+        let vowels = vec!['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+        let mut i = 0;
+        let mut j = s.len() - 1;
+        while i < j {
+            let ci = s.as_bytes()[i];
+            let cj = s.as_bytes()[j];
+            if !vowels.contains(&(ci as char)) {
+                i += 1;
+            } else if !vowels.contains(&(cj as char)) {
+                j -= 1;
+            } else {
+                unsafe {
+                    r.as_bytes_mut()[i] = cj;
+                    r.as_bytes_mut()[j] = ci;
+                }
+                i += 1;
+                j -= 1;
+            }
+        }
+        return r;
+    }
+
     /// 0633. Sum of Square Numbers
     /// Given a non-negative integer c, your task is to decide whether there're
     /// two integers a and b such that a2 + b2 = c.
@@ -126,6 +156,7 @@ fn main() {
 
 #[cfg(test)]
 mod testing {
+    use std::str::FromStr;
     use super::Solution;
     #[test]
     fn test_two_sum_2() {
@@ -135,6 +166,13 @@ mod testing {
             i == (v[(Solution::two_sum_2(&v, i)[0 as usize] - 1) as usize]
                 + v[(Solution::two_sum_2(&v, i)[1 as usize] - 1) as usize])
         );
+    }
+
+    #[test]
+    fn test_reverse_vowels() {
+        let i = "leetcode";
+        let r = "leotcede";
+        assert!(r == Solution::reverse_vowels(String::from_str(i).unwrap()));
     }
 
     #[test]
