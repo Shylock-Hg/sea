@@ -148,6 +148,68 @@ impl Solution {
         }
         return false;
     }
+
+    /// 0680. Valid Palindrome II
+    /// https://leetcode.com/problems/valid-palindrome-ii/description/
+    /// Given a non-empty string s, you may delete at most one character.
+    /// Judge whether you can make it a palindrome.
+    ///   The string will only contain lowercase characters a-z.
+    ///   The maximum length of the string is 50000.
+    fn is_palindrome(s: &String, mut i: usize, mut j: usize) -> bool {
+        let b = s.as_bytes();
+        while i < j {
+            if b[i] != b[j] {
+                return false;
+            }
+            i += 1;
+            j -= 1;
+        }
+        return true;
+    }
+    pub fn valid_palindrome(s: String) -> bool {
+        // if s.len() < 3 {
+        //     return false;
+        // }
+        // let mut i = 0;
+        // let mut j = s.len() - 1;
+        // let mut tup = 0;
+        // while i < j {
+        //     let ci = s.as_bytes()[i];
+        //     let cj = s.as_bytes()[j];
+        //     if ci != cj {
+        //         if s.as_bytes()[i+1] == cj && s.as_bytes()[j-1] == ci {
+        //             tup += 1;
+        //             i += 1;
+        //             j -= 1;
+        //         } else {
+        //             return false;
+        //         }
+        //     }
+        //     i += 1;
+        //     j -= 1;
+        // }
+        //return if tup < 2 { true } else { false };
+
+        // There are also the Martix Search Space come from Vector product,
+        //   such as [a, b, d, a]^2
+        // The palindrome mean The Marix From left-bottom to Middle are all
+        // same element for row/column.
+        // But the question are palindrome when remove *at most* one element,
+        // So when we check Adjacent sides around diagonal also if diagonal
+        // don't fit.
+        let mut i = 0;
+        let mut j = s.len() - 1;
+        let b = s.as_bytes();
+        while i < j {
+            if b[i] != b[j] {
+                return Self::is_palindrome(&s, i, j - 1)
+                    || Self::is_palindrome(&s, i + 1, j);
+            }
+            i += 1;
+            j -= 1;
+        }
+        return true;
+    }
 }
 
 fn main() {
@@ -179,5 +241,11 @@ mod testing {
     fn test_judge_square_sum() {
         let num = 5;
         assert!(true == Solution::judge_square_sum(num));
+    }
+
+    #[test]
+    fn test_valid_palindrome() {
+        let s = String::from_str("abca").unwrap();
+        assert!(Solution::valid_palindrome(s));
     }
 }
