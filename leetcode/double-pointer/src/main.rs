@@ -4,6 +4,36 @@ use std::vec::Vec;
 struct Solution {}
 
 impl Solution {
+    /// 0088. Merge Sorted Array
+    /// Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1
+    /// as one sorted array.
+    ///   The number of elements initialized in nums1 and nums2 are m and n
+    ///   respectively.
+    ///   You may assume that nums1 has enough space (size that is greater or
+    ///   equal to m + n) to hold additional elements from nums2.
+    /// Merge from end anti overload nums1
+    pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
+        let mut pos = m + n - 1;
+        let mut i = m - 1;
+        let mut j = n - 1;
+        while i >= 0 || j >= 0 {
+            if i < 0 {
+                nums1[pos as usize] = nums2[j as usize];
+                j -= 1;
+            } else if j < 0 {
+                nums1[pos as usize] = nums1[i as usize];
+                i -= 1;
+            } else if nums1[i as usize] > nums2[j as usize] {
+                nums1[pos as usize] = nums1[i as usize];
+                i -= 1;
+            } else {
+                nums1[pos as usize] = nums2[j as usize];
+                j -= 1;
+            }
+            pos -= 1;
+        }
+    }
+
     /// 0167. Two Sum II - Input array is sorted
     /// Given an array of integers that is already sorted in ascending order,
     /// find two numbers such that they add up to a specific target number.
@@ -218,8 +248,20 @@ fn main() {
 
 #[cfg(test)]
 mod testing {
-    use std::str::FromStr;
     use super::Solution;
+    use std::str::FromStr;
+
+    #[test]
+    fn test_merge() {
+        let mut n1 = vec![1, 2, 3, 0, 0, 0];
+        let l1 = 3;
+        let mut n2 = vec![2, 5, 6];
+        let l2 = 3;
+        let target = vec![1, 2, 2, 3, 5, 6];
+        Solution::merge(&mut n1, l1, &mut n2, l2);
+        assert!(target.eq(&n1));
+    }
+
     #[test]
     fn test_two_sum_2() {
         let v = vec![2, 7, 11, 15];
