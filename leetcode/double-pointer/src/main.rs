@@ -139,6 +139,45 @@ impl Solution {
         return r;
     }
 
+    /// 0524. Longest Word in Dictionary through Deleting
+    /// Given a string and a string dictionary, find the longest string in the
+    /// dictionary that can be formed by deleting some characters of the given
+    /// string. If there are more than one possible results, return the longest
+    /// word with the smallest lexicographical order. If there is no possible
+    /// result, return the empty string.
+    ///   All the strings in the input will only contain lower-case letters.
+    ///   The size of the dictionary won't exceed 1,000.
+    ///   The length of all the strings in the input won't exceed 1,000.
+    fn matched(s1: &String, s2: &String) -> bool {
+        let c1 = s1.as_bytes();
+        let c2 = s2.as_bytes();
+        let mut i = 0;
+        let mut j = 0;
+        while i < s1.len() && j < s2.len() {
+            if c1[i] == c2[j] {
+                i += 1;
+            }
+            j += 1;
+        }
+        return i == c1.len();
+    }
+    pub fn find_longest_word(s: String, d: Vec<String>) -> String {
+        let mut last = String::new();
+        for w in &d {
+            let is_matched = Self::matched(&w, &s);
+            if is_matched {
+                if last.len() < w.len() {
+                    last = w.clone();
+                } else if last.len() == w.len() {
+                    if last > w.to_string() {
+                        last = w.clone();
+                    }
+                }
+            }
+        }
+        return last;
+    }
+
     /// 0633. Sum of Square Numbers
     /// Given a non-negative integer c, your task is to decide whether there're
     /// two integers a and b such that a2 + b2 = c.
@@ -277,6 +316,20 @@ mod testing {
         let i = "leetcode";
         let r = "leotcede";
         assert!(r == Solution::reverse_vowels(String::from_str(i).unwrap()));
+    }
+
+    #[test]
+    fn test_find_longest_word() {
+        let s = String::from_str("abpcplea").unwrap();
+        let d = vec![
+            String::from_str("ale").unwrap(),
+            String::from_str("apple").unwrap(),
+            String::from_str("monkey").unwrap(),
+            String::from_str("plea").unwrap(),
+        ];
+        let r = "apple";
+        let r1 = Solution::find_longest_word(s, d);
+        assert!(r.eq(&r1));
     }
 
     #[test]
