@@ -2,6 +2,7 @@
 
 members = [
     "leetcode/double-pointer",
+    "leetcode/sorting",
 ]
 
 [profile.release]
