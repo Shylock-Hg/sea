@@ -3,6 +3,7 @@ use std::collections::BinaryHeap;
 use std::collections::HashMap;
 use std::collections::LinkedList;
 use std::vec::Vec;
+use std::collections::HashSet;
 
 struct Solution {}
 
@@ -142,6 +143,7 @@ fn main() {
 #[cfg(test)]
 mod testing {
     use super::Solution;
+    use std::collections::HashSet;
 
     #[test]
     fn test_find_kth_largest() {
@@ -158,7 +160,14 @@ mod testing {
     fn test_top_k_frequent() {
         let nums = vec![1, 2];
         let k = 2;
-        let r = vec![1, 2];
-        assert_eq!(r, Solution::top_k_frequent(nums, k));
+        let mut r = HashSet::new();
+        r.insert(1);
+        r.insert(2);
+        let mut e = HashSet::new();
+        let v = Solution::top_k_frequent(nums, k);
+        for i in v {
+            e.insert(i);
+        }
+        assert_eq!(r, e);
     }
 }
