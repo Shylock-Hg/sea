@@ -1,6 +1,9 @@
 use std::cmp::Reverse;
 use std::collections::BinaryHeap;
+use std::collections::HashMap;
+use std::collections::LinkedList;
 use std::vec::Vec;
+use std::collections::HashSet;
 
 struct Solution {}
 
@@ -89,6 +92,48 @@ impl Solution {
         }
         return nums_mut[ku];
     }
+
+    /// 347. Top K Frequent Elements
+    /// Given a non-empty array of integers, return the k most frequent
+    /// elements.
+    /// You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
+    /// Your algorithm's time complexity must be better than O(n log n),
+    /// where n is the array's size.
+    pub fn top_k_frequent(nums: Vec<i32>, k: i32) -> Vec<i32> {
+        // (num, freq)
+        let mut freq_map: HashMap<i32, i32> =
+            HashMap::with_capacity(nums.len());
+        for n in &nums {
+            freq_map.insert(
+                *n,
+                if let Some(v) = freq_map.get(n) {
+                    v + 1
+                } else {
+                    1
+                },
+            );
+        }
+        let mut bucket: Vec<LinkedList<i32>> =
+            vec![LinkedList::new(); nums.len() + 1];
+        for (k, v) in freq_map {
+            bucket[v as usize].push_back(k);
+        }
+        let mut r: Vec<i32> = Vec::with_capacity(k as usize);
+        let mut counter = 0;
+        for i in bucket.iter().rev() {
+            for j in i {
+                r.push(*j);
+                counter += 1;
+                if counter >= k {
+                    break;
+                }
+            }
+            if counter >= k {
+                break;
+            }
+        }
+        return r;
+    }
 }
 
 fn main() {
@@ -98,6 +143,7 @@ fn main() {
 #[cfg(test)]
 mod testing {
     use super::Solution;
+    use std::collections::HashSet;
 
     #[test]
     fn test_find_kth_largest() {
@@ -108,5 +154,20 @@ mod testing {
         let input = vec![7, 6, 5, 4, 3, 2, 1];
         let target = 6;
         assert!(target == Solution::find_kth_largest(input, k));
+    }
+
+    #[test]
+    fn test_top_k_frequent() {
+        let nums = vec![1, 2];
+        let k = 2;
+        let mut r = HashSet::new();
+        r.insert(1);
+        r.insert(2);
+        let mut e = HashSet::new();
+        let v = Solution::top_k_frequent(nums, k);
+        for i in v {
+            e.insert(i);
+        }
+        assert_eq!(r, e);
     }
 }
