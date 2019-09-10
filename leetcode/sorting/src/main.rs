@@ -134,6 +134,32 @@ impl Solution {
         }
         return r;
     }
+
+    /// 0451. Sort Characters By Frequency
+    /// Given a string, sort it in decreasing order based on the frequency of
+    /// characters.
+    pub fn frequency_sort(s: String) -> String {
+        let mut r = String::with_capacity(s.len());
+        // index: character, value: frequency
+        let mut alphabet : [usize; 256] = [0; 256];
+        // index: frequency, value: character
+        let mut freq : Vec<LinkedList<u8>> = vec![LinkedList::new(); s.len() + 1];
+        let bytes = s.as_bytes();
+        for c in bytes {
+            alphabet[*c as usize] += 1;
+        }
+        for i in 0..alphabet.len() {
+            freq[alphabet[i]].push_back(i as u8);
+        }
+        for i in (0..freq.len()).rev() {
+            for c in &freq[i] {
+                for _ in 0..i {
+                    r.push(*c as char);
+                }
+            }
+        }
+        return r;
+    }
 }
 
 fn main() {
