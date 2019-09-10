@@ -1,9 +1,9 @@
 use std::cmp::Reverse;
 use std::collections::BinaryHeap;
 use std::collections::HashMap;
+use std::collections::HashSet;
 use std::collections::LinkedList;
 use std::vec::Vec;
-use std::collections::HashSet;
 
 struct Solution {}
 
@@ -141,9 +141,10 @@ impl Solution {
     pub fn frequency_sort(s: String) -> String {
         let mut r = String::with_capacity(s.len());
         // index: character, value: frequency
-        let mut alphabet : [usize; 256] = [0; 256];
+        let mut alphabet: [usize; 256] = [0; 256];
         // index: frequency, value: character
-        let mut freq : Vec<LinkedList<u8>> = vec![LinkedList::new(); s.len() + 1];
+        let mut freq: Vec<LinkedList<u8>> =
+            vec![LinkedList::new(); s.len() + 1];
         let bytes = s.as_bytes();
         for c in bytes {
             alphabet[*c as usize] += 1;
