@@ -8,6 +8,29 @@ use std::vec::Vec;
 struct Solution {}
 
 impl Solution {
+    /// 0075. Sort Colors
+    /// Given an array with n objects colored red, white or blue, sort them
+    /// in-place so that objects of the same color are adjacent, with the
+    /// colors in the order red, white and blue.
+    /// Here, we will use the integers 0, 1, and 2 to represent the color red,
+    /// white, and blue respectively.
+    /// Note: You are not suppose to use the library's sort function for this
+    /// problem.
+    pub fn sort_colors(nums: &mut Vec<i32>) {
+        // index: coloer, value: count
+        let mut color: [usize; 3] = [0; 3];
+        let mut index = 0;
+        for i in &mut nums.iter() {
+            color[*i as usize] += 1;
+        }
+        for i in 0..color.len() {
+            for j in 0..color[i] {
+                nums[index] = i as i32;
+                index += 1;
+            }
+        }
+    }
+
     /// 0215. Kth Largest Element in an Array
     /// Find the kth largest element in an unsorted array. Note that it is the
     /// kth largest element in the sorted order, not the kth distinct element.
@@ -171,6 +194,14 @@ fn main() {
 mod testing {
     use super::Solution;
     use std::collections::HashSet;
+
+    #[test]
+    fn test_sort_colors() {
+        let mut input = vec![2, 0, 2, 1, 1, 0];
+        let output = vec![0, 0, 1, 1, 2, 2];
+        Solution::sort_colors(&mut input);
+        assert_eq!(input, output);
+    }
 
     #[test]
     fn test_find_kth_largest() {
