@@ -10,6 +10,7 @@ impl Solution {
     ///   Intervals like [1,2] and [2,3] have borders "touching" but they don't
     ///   overlap each other.
     pub fn erase_overlap_intervals(intervals: Vec<Vec<i32>>) -> i32 {
+        // Select interval from smaller upper bound and avoid overlapping
         if intervals.is_empty() {
             return 0;
         }
