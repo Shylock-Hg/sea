@@ -20,7 +20,12 @@ impl Solution {
         // each step as it attempts to find the overall optimal way to solve
         // the entire problem.
         // Why greedy algorithm fit this problem?
-        //
+        // We assign the cookie to largest child it can content. So this is the
+        // best choice for this cookie.
+        // Image in the G*S Matrix Solution Space, we choose the child for each
+        // cookie, if we choose the one not just fit, maybe there is one cookie
+        // just fit the child; So the greedy solution is best.
+        // Time: O(M*N), Space: O(M)
         let mut gused = vec![false; g.len()];
         let mut count = 0;
         for si in s {
@@ -46,6 +51,9 @@ impl Solution {
             }
         }
         return count;
+
+        // Another way to find the cookie for this child
+        // Greedy find the minimum one the child can content
     }
 }
 
