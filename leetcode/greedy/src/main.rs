@@ -14,16 +14,16 @@ impl Solution {
             return 0;
         }
         let mut intervals_mut = intervals.clone();
-        intervals_mut.sort_by(|a, b| a[a.len() - 1].cmp(&b[b.len() - 1]));
+        intervals_mut.sort_by(|a, b| a.last().unwrap().cmp(&b.last().unwrap()));
         let mut count = 1;
-        let mut end = intervals_mut[0][intervals_mut[0].len() - 1];
+        let mut end = intervals_mut.first().unwrap().last().unwrap();
         for i in 1..intervals_mut.len() {
             // find the minimum upper bound
-            if intervals_mut[i][0] < end {
+            if intervals_mut[i].first().unwrap() < end {
                 continue;
             }
             count += 1;
-            end = intervals_mut[i][intervals_mut[i].len() - 1];
+            end = intervals_mut[i].last().unwrap();
         }
         return intervals_mut.len() as i32 - count;
     }
