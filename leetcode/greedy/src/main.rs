@@ -1,6 +1,34 @@
 struct Solution {}
 
 impl Solution {
+    /// 0435. Non-overlapping Intervals
+    /// Given a collection of intervals, find the minimum number of intervals
+    /// you need to remove to make the rest of the intervals non-overlapping.
+    /// Note:
+    ///   You may assume the interval's end point is always bigger than its
+    ///   start point.
+    ///   Intervals like [1,2] and [2,3] have borders "touching" but they don't
+    ///   overlap each other.
+    pub fn erase_overlap_intervals(intervals: Vec<Vec<i32>>) -> i32 {
+        // Select interval from smaller upper bound and avoid overlapping
+        if intervals.is_empty() {
+            return 0;
+        }
+        let mut intervals_mut = intervals.clone();
+        intervals_mut.sort_by(|a, b| a.last().unwrap().cmp(&b.last().unwrap()));
+        let mut count = 1;
+        let mut end = intervals_mut.first().unwrap().last().unwrap();
+        for i in 1..intervals_mut.len() {
+            // find the minimum upper bound
+            if intervals_mut[i].first().unwrap() < end {
+                continue;
+            }
+            count += 1;
+            end = intervals_mut[i].last().unwrap();
+        }
+        return intervals_mut.len() as i32 - count;
+    }
+
     /// 0455. Assign Cookies
     /// Assume you are an awesome parent and want to give your children some
     /// cookies. But, you should give each child at most one cookie. Each child
@@ -64,6 +92,13 @@ fn main() {
 #[cfg(test)]
 mod testing {
     use super::Solution;
+
+    #[test]
+    fn test_erase_overlap_intervals() {
+        let input = vec![vec![1, 2], vec![2, 3], vec![3, 4], vec![1, 3]];
+        let output = 1;
+        assert_eq!(output, Solution::erase_overlap_intervals(input));
+    }
 
     #[test]
     fn test_find_content_children() {
