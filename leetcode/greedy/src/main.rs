@@ -29,6 +29,40 @@ impl Solution {
         return intervals_mut.len() as i32 - count;
     }
 
+    /// 0452. Minimum Number of Arrows to Burst Balloons
+    /// There are a number of spherical balloons spread in two-dimensional
+    /// space. For each balloon, provided input is the start and end
+    /// coordinates of the horizontal diameter. Since it's horizontal,
+    /// y-coordinates don't matter and hence the x-coordinates of start and
+    /// end of the diameter suffice. Start is always smaller than end.
+    /// There will be at most 104 balloons.
+    /// An arrow can be shot up exactly vertically from different points along
+    /// the x-axis. A balloon with xstart and xend bursts by an arrow shot at x
+    /// if xstart ≤ x ≤ xend. There is no limit to the number of arrows that
+    /// can be shot. An arrow once shot keeps travelling up infinitely. The
+    /// problem is to find the minimum number of arrows that must be shot to
+    /// burst all balloons.
+    pub fn find_min_arrow_shots(points: Vec<Vec<i32>>) -> i32 {
+        // Compute the nonoverlaped range
+        // and count the range(balloon)
+        if points.is_empty() {
+            return 0;
+        }
+        let mut points_mut = points.clone();
+        points_mut.sort_by(|a, b| a.last().unwrap().cmp(&b.last().unwrap()));
+        let mut count = 1;
+        let mut end = points_mut.first().unwrap().last().unwrap();
+        for i in 1..points_mut.len() {
+            // find the minimum upper bound
+            if points_mut[i].first().unwrap() <= end {
+                continue;
+            }
+            count += 1;
+            end = points_mut[i].last().unwrap();
+        }
+        return count;
+    }
+
     /// 0455. Assign Cookies
     /// Assume you are an awesome parent and want to give your children some
     /// cookies. But, you should give each child at most one cookie. Each child
@@ -98,6 +132,13 @@ mod testing {
         let input = vec![vec![1, 2], vec![2, 3], vec![3, 4], vec![1, 3]];
         let output = 1;
         assert_eq!(output, Solution::erase_overlap_intervals(input));
+    }
+
+    #[test]
+    fn test_find_min_arrow_shots() {
+        let input = vec![vec![10,16], vec![2,8], vec![1,6], vec![7,12]];
+        let output = 2;
+        assert_eq!(output, Solution::find_min_arrow_shots(input));
     }
 
     #[test]
