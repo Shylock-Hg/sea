@@ -1,6 +1,37 @@
+use std::collections::LinkedList;
+
 struct Solution {}
 
 impl Solution {
+    /// 0406. Queue Reconstruction by Height
+    /// Suppose you have a random list of people standing in a queue. Each
+    /// person is described by a pair of integers (h, k), where h is the height
+    /// of the person and k is the number of people in front of this person who
+    /// have a height greater than or equal to h. Write an algorithm to
+    /// reconstruct the queue.
+    /// Note:
+    ///   The number of people is less than 1,100.
+    pub fn reconstruct_queue(mut people: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        let r = vec![vec![]];
+        let l = LinkedList::new();
+        let i = l.iter_mut();
+        if people.len() == 0 {
+            return r;
+        }
+        people.sort_by(|a, b| {
+            if a[0] == b[0] {
+                a[1].cmp(&b[1])
+            } else {
+                b[0].cmp(&a[0])
+            }
+        });
+        for p in people {
+            i.skip(p[1] as usize);
+            i.insert_next(p);
+        }
+        return r;
+    }
+
     /// 0435. Non-overlapping Intervals
     /// Given a collection of intervals, find the minimum number of intervals
     /// you need to remove to make the rest of the intervals non-overlapping.
@@ -126,6 +157,27 @@ fn main() {
 #[cfg(test)]
 mod testing {
     use super::Solution;
+
+    #[test]
+    fn test_reconstruct_queue() {
+        let input = vec![
+            vec![7, 0],
+            vec![4, 4],
+            vec![7, 1],
+            vec![5, 0],
+            vec![6, 1],
+            vec![5, 2],
+        ];
+        let output = vec![
+            vec![5, 0],
+            vec![7, 0],
+            vec![5, 2],
+            vec![6, 1],
+            vec![4, 4],
+            vec![7, 1],
+        ];
+        assert_eq!(output, Solution::reconstruct_queue(input));
+    }
 
     #[test]
     fn test_erase_overlap_intervals() {
