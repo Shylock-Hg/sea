@@ -40,6 +40,55 @@ impl Solution {
         return profit;
     }
 
+    /// 0122. Best Time to Buy and Sell Stock II
+    /// Say you have an array for which the ith element is the price of a given
+    /// stock on day i.
+    /// Design an algorithm to find the maximum profit. You may complete as
+    /// many transactions as you like (i.e., buy one and sell one share of the
+    /// stock multiple times).
+    /// Note: You may not engage in multiple transactions at the same time
+    /// (i.e., you must sell the stock before you buy again).
+    pub fn max_profit2(prices: Vec<i32>) -> i32 {
+        // Don't sell if price up
+        // Don't buy if price down
+        // let mut buy = None;
+        // let mut profit = 0;
+        // if prices.len() == 0 {
+        //     return profit;
+        // }
+        // for i in 0..(prices.len() - 1) {
+        //     if prices[i + 1] < prices[i] {
+        //         // Price down
+        //         if let Some(p) = buy {
+        //             profit += prices[i] - p;
+        //             buy = None;
+        //         }
+        //     } else {
+        //         // Price up
+        //         if buy == None {
+        //             buy = Some(prices[i]);
+        //         }
+        //     }
+        // }
+        // // Too greedy forget to sell
+        // if let Some(p) = buy {
+        //     let last = prices.last().unwrap();
+        //     if p < *last {
+        //         profit += last - p;
+        //     }
+        // }
+        // return profit;
+
+        // Acquire each positive profit
+        let mut profit = 0;
+        for i in 1..prices.len() {
+            if prices[i] > prices[i-1] {
+                profit += prices[i] - prices[i-1];
+            }
+        }
+        return profit;
+    }
+
     /// 0435. Non-overlapping Intervals
     /// Given a collection of intervals, find the minimum number of intervals
     /// you need to remove to make the rest of the intervals non-overlapping.
@@ -171,6 +220,17 @@ mod testing {
         let Input = vec![7, 1, 5, 3, 6, 4];
         let Output = 5;
         assert_eq!(Output, Solution::max_profit(Input));
+    }
+
+    #[test]
+    fn test_max_profit2() {
+        let Input = vec![7, 1, 5, 3, 6, 4];
+        let Output = 7;
+        assert_eq!(Output, Solution::max_profit2(Input));
+
+        let Input2 = vec![6, 1, 3, 2, 4, 7];
+        let Output2 = 7;
+        assert_eq!(Output2, Solution::max_profit2(Input2));
     }
 
     #[test]
