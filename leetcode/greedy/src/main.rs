@@ -51,30 +51,39 @@ impl Solution {
     pub fn max_profit2(prices: Vec<i32>) -> i32 {
         // Don't sell if price up
         // Don't buy if price down
-        let mut buy = None;
+        // let mut buy = None;
+        // let mut profit = 0;
+        // if prices.len() == 0 {
+        //     return profit;
+        // }
+        // for i in 0..(prices.len() - 1) {
+        //     if prices[i + 1] < prices[i] {
+        //         // Price down
+        //         if let Some(p) = buy {
+        //             profit += prices[i] - p;
+        //             buy = None;
+        //         }
+        //     } else {
+        //         // Price up
+        //         if buy == None {
+        //             buy = Some(prices[i]);
+        //         }
+        //     }
+        // }
+        // // Too greedy forget to sell
+        // if let Some(p) = buy {
+        //     let last = prices.last().unwrap();
+        //     if p < *last {
+        //         profit += last - p;
+        //     }
+        // }
+        // return profit;
+
+        // Acquire each positive profit
         let mut profit = 0;
-        if prices.len() == 0 {
-            return profit;
-        }
-        for i in 0..(prices.len() - 1) {
-            if prices[i + 1] < prices[i] {
-                // Price down
-                if let Some(p) = buy {
-                    profit += prices[i] - p;
-                    buy = None;
-                }
-            } else {
-                // Price up
-                if buy == None {
-                    buy = Some(prices[i]);
-                }
-            }
-        }
-        // Too greedy forget to sell
-        if let Some(p) = buy {
-            let last = prices.last().unwrap();
-            if p < *last {
-                profit += last - p;
+        for i in 1..prices.len() {
+            if prices[i] > prices[i-1] {
+                profit += prices[i] - prices[i-1];
             }
         }
         return profit;
