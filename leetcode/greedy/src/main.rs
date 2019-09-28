@@ -82,8 +82,8 @@ impl Solution {
         // Acquire each positive profit
         let mut profit = 0;
         for i in 1..prices.len() {
-            if prices[i] > prices[i-1] {
-                profit += prices[i] - prices[i-1];
+            if prices[i] > prices[i - 1] {
+                profit += prices[i] - prices[i - 1];
             }
         }
         return profit;
@@ -205,6 +205,67 @@ impl Solution {
         // Another way to find the cookie for this child
         // Greedy find the minimum one the child can content
     }
+
+    /// 0605. Can Place Flowers
+    /// Suppose you have a long flowerbed in which some of the plots are
+    /// planted and some are not. However, flowers cannot be planted in
+    /// adjacent plots - they would compete for water and both would die.
+    /// Given a flowerbed (represented as an array containing 0 and 1,
+    /// where 0 means empty and 1 means not empty), and a number n, return
+    /// if n new flowers can be planted in it without violating the
+    /// no-adjacent-flowers rule.
+    pub fn can_place_flowers(mut flowerbed: Vec<i32>, n: i32) -> bool {
+        // let mut left_used = false;
+        // let mut r = n;
+        // if 0 == flowerbed.len() {
+        //     return r == 0;
+        // } else if 1 == flowerbed.len() {
+        //     if flowerbed[0] == 0 {
+        //         return r <= 1;
+        //     } else {
+        //         return r <= 0;
+        //     }
+        // }
+        // for i in 0..flowerbed.len()-1 {
+        //     if 0 == flowerbed[i] {
+        //         if !left_used && flowerbed[i+1] == 0 {
+        //             r -= 1;
+        //             left_used = true;
+        //         } else {
+        //             left_used = false;
+        //         }
+        //     } else {
+        //         left_used = true;
+        //     }
+        // }
+        // // Last One
+        // if let Some(i) = flowerbed.last() {
+        //     if !left_used && *i == 0 {
+        //         r -= 1;
+        //     }
+        // }
+        // return r <= 0;
+
+        // Same but more clear
+        let mut r = n;
+        let mut prev = 0;
+        let mut next = 0;
+        for i in 0..flowerbed.len() {
+            prev = if 0 == i { 0 } else { flowerbed[i - 1] };
+            next = if flowerbed.len() - 1 == i {
+                0
+            } else {
+                flowerbed[i + 1]
+            };
+            if flowerbed[i] == 0 {
+                if prev == 0 && next == 0 {
+                    r -= 1;
+                    flowerbed[i] = 1;
+                }
+            }
+        }
+        return r <= 0;
+    }
 }
 
 fn main() {
@@ -252,5 +313,13 @@ mod testing {
         let g = vec![1, 2, 3];
         let s = vec![1, 1];
         assert_eq!(1, Solution::find_content_children(g, s));
+    }
+
+    #[test]
+    fn test_can_place_flowers() {
+        let flowerbed = vec![1, 0, 0, 0, 1];
+        let n = 1;
+        let Output = true;
+        assert_eq!(Output, Solution::can_place_flowers(flowerbed, n));
     }
 }
