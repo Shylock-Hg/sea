@@ -1,9 +1,7 @@
 [workspace]
 
 members = [
-    "leetcode/double-pointer",
-    "leetcode/sorting",
-    "leetcode/greedy",
+    "leetcode"
 ]
 
 [profile.release]
