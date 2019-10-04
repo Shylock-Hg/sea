@@ -89,6 +89,30 @@ impl Solution {
         return profit;
     }
 
+    /// 0392. Is Subsequence
+    /// Given a string s and a string t, check if s is subsequence of t.
+    /// You may assume that there is only lower case English letters in both s
+    /// and t. t is potentially a very long (length ~= 500,000) string, and s
+    /// is a short string (<=100).
+    /// A subsequence of a string is a new string which is formed from the
+    /// original string by deleting some (can be none) of the characters
+    /// without disturbing the relative positions of the remaining characters.
+    /// (ie, "ace" is a subsequence of "abcde" while "aec" is not).
+    pub fn is_subsequence(s: String, t: String) -> bool {
+        let mut j = 0;
+        for i in 0..t.as_bytes().len() {
+            // match all
+            if j >= s.as_bytes().len() {
+                break;
+            }
+            // match one
+            if s.as_bytes()[j] == t.as_bytes()[i] {
+                j += 1;
+            }
+        }
+        return j >= s.as_bytes().len();
+    }
+
     /// 0435. Non-overlapping Intervals
     /// Given a collection of intervals, find the minimum number of intervals
     /// you need to remove to make the rest of the intervals non-overlapping.
@@ -299,6 +323,13 @@ mod testing {
         let input = vec![vec![1, 2], vec![2, 3], vec![3, 4], vec![1, 3]];
         let output = 1;
         assert_eq!(output, Solution::erase_overlap_intervals(input));
+    }
+
+    #[test]
+    fn test_is_subsequence() {
+        let s = String::from("abc");
+        let t = String::from("ahbgdc");
+        assert!(Solution::is_subsequence(s, t));
     }
 
     #[test]
