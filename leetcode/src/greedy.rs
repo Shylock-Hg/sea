@@ -290,6 +290,32 @@ impl Solution {
         }
         return r <= 0;
     }
+
+    /// 0665. Non-decreasing Array
+    /// Given an array with n integers, your task is to check if it could
+    /// become non-decreasing by modifying at most 1 element.
+    /// We define an array is non-decreasing if array[i] <= array[i + 1] holds
+    /// for every i (1 <= i < n).
+    pub fn check_possibility(mut nums: Vec<i32>) -> bool {
+        let mut c = 0;
+        for i in 1..nums.len() {
+            if c > 1 {
+                break;
+            }
+            // Need modify
+            if nums[i] < nums[i - 1] {
+                c += 1;
+                // Make modified value small as possible
+                if i >= 2 && nums[i - 2] > nums[i] {
+                    nums[i] = nums[i - 1];
+                } else {
+                    nums[i - 1] = nums[i];
+                }
+                nums[i] = nums[i - 1];
+            }
+        }
+        return c <= 1;
+    }
 }
 
 fn main() {
@@ -352,5 +378,12 @@ mod testing {
         let n = 1;
         let Output = true;
         assert_eq!(Output, Solution::can_place_flowers(flowerbed, n));
+    }
+
+    #[test]
+    fn test_check_possibility() {
+        let Input = vec![4, 2, 3];
+        let Output = true;
+        assert_eq!(Output, Solution::check_possibility(Input));
     }
 }
