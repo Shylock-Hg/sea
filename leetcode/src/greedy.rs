@@ -1,6 +1,54 @@
 struct Solution {}
 
 impl Solution {
+    /// 0053. Maximum Subarray
+    /// Given an integer array nums, find the contiguous subarray (containing
+    /// at least one number) which has the largest sum and return its sum.
+    fn maxCrossSum(nums: &Vec<i32>, l: i32, r: i32) -> i32 {
+        if l > r {
+            return std::i32::MIN;
+        }
+        let m = l + (r - l) / 2;
+        let mut ml = 0;
+        let mut mr = 0;
+        let mut sum = 0;
+        for i in (l..m).rev() {
+            sum += nums[i as usize];
+            ml = std::cmp::max(sum, ml);
+        }
+        sum = 0;
+        for i in m + 1..r + 1 {
+            sum += nums[i as usize];
+            mr = std::cmp::max(sum, mr);
+        }
+        return ml + mr + nums[m as usize];
+    }
+    fn maxSubArray(nums: &Vec<i32>, l: i32, r: i32) -> i32 {
+        if l > r {
+            return std::i32::MIN;
+        }
+        let m = l + (r - l) / 2;
+        return std::cmp::max(
+            std::cmp::max(
+                Self::maxSubArray(nums, l, m - 1),
+                Self::maxSubArray(nums, m + 1, r),
+            ),
+            Self::maxCrossSum(nums, l, r),
+        );
+    }
+    pub fn max_sub_array(nums: Vec<i32>) -> i32 {
+        // let mut latest = nums[0];
+        // let mut max = latest;
+        // for i in 1..nums.len() {
+        //     // latest maximum sub-array sum
+        //     latest = if latest > 0 {latest + nums[i]} else {nums[i]};
+        //     max = std::cmp::max(latest, max);
+        // }
+        // return max;
+
+        return Self::maxSubArray(&nums, 0, (nums.len() - 1) as i32);
+    }
+
     /// 0121. Best Time to Buy and Sell Stock
     /// Say you have an array for which the ith element is the price of a given
     /// stock on day i.
@@ -321,6 +369,13 @@ impl Solution {
 #[cfg(test)]
 mod testing {
     use super::Solution;
+
+    #[test]
+    fn test_max_sub_array() {
+        let Input = vec![-2, 1, -3, 4, -1, 2, 1, -5, 4];
+        let Output = 6;
+        assert_eq!(Output, Solution::max_sub_array(Input));
+    }
 
     #[test]
     fn test_max_profit() {
