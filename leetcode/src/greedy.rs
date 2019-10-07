@@ -4,15 +4,13 @@ impl Solution {
     /// 0053. Maximum Subarray
     /// Given an integer array nums, find the contiguous subarray (containing
     /// at least one number) which has the largest sum and return its sum.
-    fn maxSubArray(nums: &Vec<i32>, l: i32, r: i32) -> i32 {
+    fn maxCrossSum(nums: &Vec<i32>, l: i32, r: i32) -> i32 {
         if l > r {
             return std::i32::MIN;
         }
         let m = l + (r - l) / 2;
         let mut ml = 0;
         let mut mr = 0;
-        let lmax = Self::maxSubArray(nums, l, m - 1);
-        let rmax = Self::maxSubArray(nums, m + 1, r);
         let mut sum = 0;
         for i in (l..m).rev() {
             sum += nums[i as usize];
@@ -23,9 +21,19 @@ impl Solution {
             sum += nums[i as usize];
             mr = std::cmp::max(sum, mr);
         }
+        return ml + mr + nums[m as usize];
+    }
+    fn maxSubArray(nums: &Vec<i32>, l: i32, r: i32) -> i32 {
+        if l > r {
+            return std::i32::MIN;
+        }
+        let m = l + (r - l) / 2;
         return std::cmp::max(
-            std::cmp::max(lmax, rmax),
-            ml + mr + nums[m as usize],
+            std::cmp::max(
+                Self::maxSubArray(nums, l, m - 1),
+                Self::maxSubArray(nums, m + 1, r),
+            ),
+            Self::maxCrossSum(nums, l, r),
         );
     }
     pub fn max_sub_array(nums: Vec<i32>) -> i32 {
