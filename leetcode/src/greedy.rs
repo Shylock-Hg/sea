@@ -364,6 +364,46 @@ impl Solution {
         }
         return c <= 1;
     }
+
+    /// 0763. Partition Labels
+    /// A string S of lowercase letters is given. We want to partition this
+    /// string into as many parts as possible so that each letter appears in at
+    /// most one part, and return a list of integers representing the size of
+    /// these parts.
+    fn partition_range(s: &String, left: usize) -> usize {
+        // the range of s[left]
+        let mut current = left;
+        for i in left..s.len() {
+            if s.as_bytes()[i] == s.as_bytes()[left] {
+                current = i;
+            }
+        }
+        return current;
+    }
+    fn partition_extend(s: &String, left: usize, right: usize) -> usize {
+        // the partition from left
+        if left == right {
+            return right;
+        }
+        let mut bound = right;
+        for j in left + 1..right {
+            let current = Self::partition_range(&s, j);
+            bound = std::cmp::max(bound, current);
+        }
+        return Self::partition_extend(&s, right, bound);
+    }
+    pub fn partition_labels(s: String) -> Vec<i32> {
+        let mut r: Vec<i32> = vec![];
+        let mut i = 0;
+        // partition from left by greedy
+        while i < s.as_bytes().len() {
+            let right = Self::partition_range(&s, i);
+            let bound = Self::partition_extend(&s, i, right);
+            r.push((bound - i + 1) as i32);
+            i = bound + 1;
+        }
+        return r;
+    }
 }
 
 #[cfg(test)]
@@ -436,5 +476,12 @@ mod testing {
         let Input = vec![4, 2, 3];
         let Output = true;
         assert_eq!(Output, Solution::check_possibility(Input));
+    }
+
+    #[test]
+    fn test_partition_labels() {
+        let Input = String::from("ababcbacadefegdehijhklij");
+        let Output = vec![9, 7, 8];
+        assert_eq!(Output, Solution::partition_labels(Input));
     }
 }
