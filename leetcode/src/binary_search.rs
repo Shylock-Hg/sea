@@ -55,6 +55,31 @@ impl Solution {
         }
         return right as i32;
     }
+
+    /// 0744. Find Smallest Letter Greater Than Target
+    ///  Given a list of sorted characters letters containing only lowercase
+    /// letters, and given a target letter target, find the smallest element in
+    /// the list that is larger than the given target.
+    /// Letters also wrap around. For example, if the target is target = 'z'
+    /// and letters = ['a', 'b'], the answer is 'a'.
+    pub fn next_greatest_letter(letters: Vec<char>, target: char) -> char {
+        // binary search
+        let mut lo: usize = 0;
+        let mut hi: usize = letters.len() - 1;
+        let mut mid: usize = lo + (hi - lo) / 2;
+        while lo < hi {
+            if letters[mid] <= target {
+                lo = mid + 1;
+            } else {
+                hi = mid;
+            }
+            mid = lo + (hi - lo) / 2;
+        }
+        if hi >= letters.len() - 1 && letters[hi] <= target {
+            return letters[0];
+        }
+        return letters[hi];
+    }
 }
 
 #[cfg(test)]
@@ -66,5 +91,18 @@ mod testing {
         let input = 2147483647;
         let output = 46340;
         assert_eq!(output, Solution::my_sqrt(input));
+    }
+
+    #[test]
+    fn test_next_greatest_letter() {
+        let letters = vec!['c', 'f', 'j'];
+        let target = 'a';
+        let output = 'c';
+        assert_eq!(output, Solution::next_greatest_letter(letters, target));
+
+        let letters2 = vec!['c', 'f', 'j'];
+        let target2 = 'j';
+        let output2 = 'c';
+        assert_eq!(output2, Solution::next_greatest_letter(letters2, target2));
     }
 }
