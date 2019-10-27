@@ -62,23 +62,46 @@ impl Solution {
     /// the list that is larger than the given target.
     /// Letters also wrap around. For example, if the target is target = 'z'
     /// and letters = ['a', 'b'], the answer is 'a'.
+    fn next_greatest_letter_(
+        letters: &Vec<char>,
+        target: char,
+        lo: usize,
+        hi: usize,
+    ) -> usize {
+        if lo >= hi {
+            return hi;
+        }
+        let mid = lo + (hi - lo) / 2;
+        if letters[mid] <= target {
+            return Self::next_greatest_letter_(&letters, target, mid + 1, hi);
+        } else {
+            return Self::next_greatest_letter_(&letters, target, lo, mid);
+        }
+    }
     pub fn next_greatest_letter(letters: Vec<char>, target: char) -> char {
         // binary search
-        let mut lo: usize = 0;
-        let mut hi: usize = letters.len() - 1;
-        let mut mid: usize = lo + (hi - lo) / 2;
-        while lo < hi {
-            if letters[mid] <= target {
-                lo = mid + 1;
-            } else {
-                hi = mid;
-            }
-            mid = lo + (hi - lo) / 2;
-        }
-        if hi >= letters.len() - 1 && letters[hi] <= target {
+        // let mut lo: usize = 0;
+        // let mut hi: usize = letters.len() - 1;
+        // let mut mid: usize = lo + (hi - lo) / 2;
+        // while lo < hi {
+        //     if letters[mid] <= target {
+        //         lo = mid + 1;
+        //     } else {
+        //         hi = mid;
+        //     }
+        //     mid = lo + (hi - lo) / 2;
+        // }
+        // if hi >= letters.len() - 1 && letters[hi] <= target {
+        //     return letters[0];
+        // }
+        // return letters[hi];
+
+        let i =
+            Self::next_greatest_letter_(&letters, target, 0, letters.len() - 1);
+        if i >= letters.len() - 1 && letters[i] <= target {
             return letters[0];
         }
-        return letters[hi];
+        return letters[i];
     }
 }
 
