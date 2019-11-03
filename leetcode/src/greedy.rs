@@ -4,7 +4,7 @@ impl Solution {
     /// 0053. Maximum Subarray
     /// Given an integer array nums, find the contiguous subarray (containing
     /// at least one number) which has the largest sum and return its sum.
-    fn maxCrossSum(nums: &Vec<i32>, l: i32, r: i32) -> i32 {
+    fn max_cross_sum(nums: &Vec<i32>, l: i32, r: i32) -> i32 {
         if l > r {
             return std::i32::MIN;
         }
@@ -23,17 +23,17 @@ impl Solution {
         }
         return ml + mr + nums[m as usize];
     }
-    fn maxSubArray(nums: &Vec<i32>, l: i32, r: i32) -> i32 {
+    fn max_sub_array_(nums: &Vec<i32>, l: i32, r: i32) -> i32 {
         if l > r {
             return std::i32::MIN;
         }
         let m = l + (r - l) / 2;
         return std::cmp::max(
             std::cmp::max(
-                Self::maxSubArray(nums, l, m - 1),
-                Self::maxSubArray(nums, m + 1, r),
+                Self::max_sub_array_(nums, l, m - 1),
+                Self::max_sub_array_(nums, m + 1, r),
             ),
-            Self::maxCrossSum(nums, l, r),
+            Self::max_cross_sum(nums, l, r),
         );
     }
     pub fn max_sub_array(nums: Vec<i32>) -> i32 {
@@ -46,7 +46,7 @@ impl Solution {
         // }
         // return max;
 
-        return Self::maxSubArray(&nums, 0, (nums.len() - 1) as i32);
+        return Self::max_sub_array_(&nums, 0, (nums.len() - 1) as i32);
     }
 
     /// 0121. Best Time to Buy and Sell Stock
@@ -412,27 +412,27 @@ mod testing {
 
     #[test]
     fn test_max_sub_array() {
-        let Input = vec![-2, 1, -3, 4, -1, 2, 1, -5, 4];
-        let Output = 6;
-        assert_eq!(Output, Solution::max_sub_array(Input));
+        let input = vec![-2, 1, -3, 4, -1, 2, 1, -5, 4];
+        let output = 6;
+        assert_eq!(output, Solution::max_sub_array(input));
     }
 
     #[test]
     fn test_max_profit() {
-        let Input = vec![7, 1, 5, 3, 6, 4];
-        let Output = 5;
-        assert_eq!(Output, Solution::max_profit(Input));
+        let input = vec![7, 1, 5, 3, 6, 4];
+        let output = 5;
+        assert_eq!(output, Solution::max_profit(input));
     }
 
     #[test]
     fn test_max_profit2() {
-        let Input = vec![7, 1, 5, 3, 6, 4];
-        let Output = 7;
-        assert_eq!(Output, Solution::max_profit2(Input));
+        let input = vec![7, 1, 5, 3, 6, 4];
+        let output = 7;
+        assert_eq!(output, Solution::max_profit2(input));
 
-        let Input2 = vec![6, 1, 3, 2, 4, 7];
-        let Output2 = 7;
-        assert_eq!(Output2, Solution::max_profit2(Input2));
+        let input2 = vec![6, 1, 3, 2, 4, 7];
+        let output2 = 7;
+        assert_eq!(output2, Solution::max_profit2(input2));
     }
 
     #[test]
@@ -467,21 +467,21 @@ mod testing {
     fn test_can_place_flowers() {
         let flowerbed = vec![1, 0, 0, 0, 1];
         let n = 1;
-        let Output = true;
-        assert_eq!(Output, Solution::can_place_flowers(flowerbed, n));
+        let output = true;
+        assert_eq!(output, Solution::can_place_flowers(flowerbed, n));
     }
 
     #[test]
     fn test_check_possibility() {
-        let Input = vec![4, 2, 3];
-        let Output = true;
-        assert_eq!(Output, Solution::check_possibility(Input));
+        let input = vec![4, 2, 3];
+        let output = true;
+        assert_eq!(output, Solution::check_possibility(input));
     }
 
     #[test]
     fn test_partition_labels() {
-        let Input = String::from("ababcbacadefegdehijhklij");
-        let Output = vec![9, 7, 8];
-        assert_eq!(Output, Solution::partition_labels(Input));
+        let input = String::from("ababcbacadefegdehijhklij");
+        let output = vec![9, 7, 8];
+        assert_eq!(output, Solution::partition_labels(input));
     }
 }
