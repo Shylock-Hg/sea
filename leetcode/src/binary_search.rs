@@ -56,6 +56,47 @@ impl Solution {
         return right as i32;
     }
 
+    /// 0540. Single Element in a Sorted Array
+    /// You are given a sorted array consisting of only integers where every
+    /// element appears exactly *twice*, except for one element which appears
+    /// exactly once. Find this single element that appears only once.
+    fn single_non_duplicate_(nums: &Vec<i32>, lo: usize, hi: usize) -> usize {
+        if lo >= hi {
+            return lo;
+        }
+        let mid = lo + (hi - lo) / 2;
+        // key point:
+        // make sure the mid is even, so the left and right sequence are counted
+        // even too.
+        let mid_ = if mid % 2 == 1 { mid - 1 } else { mid };
+        if nums[mid_] == nums[mid_ + 1] {
+            return Self::single_non_duplicate_(nums, mid_ + 2, hi);
+        } else {
+            return Self::single_non_duplicate_(nums, lo, mid_);
+        }
+    }
+    pub fn single_non_duplicate(nums: Vec<i32>) -> i32 {
+        // let mut lo = 0;
+        // let mut hi = nums.len() - 1;
+        // let mut mid = lo + (hi - lo) / 2;
+        // while lo < hi {
+        //     if mid % 2 == 1 {
+        //         mid -= 1;
+        //     }
+        //     if nums[mid] == nums[mid + 1] {
+        //         // search right
+        //         lo = mid + 2;
+        //     } else {
+        //         // search left
+        //         hi = mid;
+        //     }
+        //     mid = lo + (hi - lo) / 2;
+        // }
+        // return nums[mid];
+
+        return nums[Self::single_non_duplicate_(&nums, 0, nums.len() - 1)];
+    }
+
     /// 0744. Find Smallest Letter Greater Than Target
     ///  Given a list of sorted characters letters containing only lowercase
     /// letters, and given a target letter target, find the smallest element in
@@ -114,6 +155,17 @@ mod testing {
         let input = 2147483647;
         let output = 46340;
         assert_eq!(output, Solution::my_sqrt(input));
+    }
+
+    #[test]
+    fn test_single_non_duplicate() {
+        let input = vec![1, 1, 2, 3, 3, 4, 4, 8, 8];
+        let output = 2;
+        assert_eq!(output, Solution::single_non_duplicate(input));
+
+        let input2 = vec![3, 3, 7, 7, 10, 11, 11];
+        let output2 = 10;
+        assert_eq!(output2, Solution::single_non_duplicate(input2));
     }
 
     #[test]
