@@ -1,7 +1,4 @@
-use std::cmp::Reverse;
-use std::collections::BinaryHeap;
 use std::collections::HashMap;
-use std::collections::HashSet;
 use std::collections::LinkedList;
 use std::vec::Vec;
 
@@ -71,7 +68,7 @@ impl Solution {
             v.swap(i as usize, j as usize);
         }
         v.swap(lo, j as usize);
-        return j as usize;
+        j as usize
     }
     pub fn find_kth_largest(nums: Vec<i32>, k: i32) -> i32 {
         assert!((k as usize) <= nums.len());
@@ -113,7 +110,7 @@ impl Solution {
                 j = p - 1;
             }
         }
-        return nums_mut[ku];
+        nums_mut[ku]
     }
 
     /// 347. Top K Frequent Elements
@@ -155,7 +152,7 @@ impl Solution {
                 break;
             }
         }
-        return r;
+        r
     }
 
     /// 0451. Sort Characters By Frequency
@@ -182,7 +179,7 @@ impl Solution {
                 }
             }
         }
-        return r;
+        r
     }
 }
 

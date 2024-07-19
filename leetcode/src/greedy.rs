@@ -21,20 +21,20 @@ impl Solution {
             sum += nums[i as usize];
             mr = std::cmp::max(sum, mr);
         }
-        return ml + mr + nums[m as usize];
+        ml + mr + nums[m as usize]
     }
     fn max_sub_array_(nums: &Vec<i32>, l: i32, r: i32) -> i32 {
         if l > r {
             return std::i32::MIN;
         }
         let m = l + (r - l) / 2;
-        return std::cmp::max(
+        std::cmp::max(
             std::cmp::max(
                 Self::max_sub_array_(nums, l, m - 1),
                 Self::max_sub_array_(nums, m + 1, r),
             ),
             Self::max_cross_sum(nums, l, r),
-        );
+        )
     }
     pub fn max_sub_array(nums: Vec<i32>) -> i32 {
         // let mut latest = nums[0];
@@ -46,7 +46,7 @@ impl Solution {
         // }
         // return max;
 
-        return Self::max_sub_array_(&nums, 0, (nums.len() - 1) as i32);
+        Self::max_sub_array_(&nums, 0, (nums.len() - 1) as i32)
     }
 
     /// 0121. Best Time to Buy and Sell Stock
@@ -71,7 +71,7 @@ impl Solution {
         // return profit;
 
         // the possible maximum profit just based smaller buy price
-        if prices.len() == 0 {
+        if prices.is_empty() {
             return 0;
         }
         let mut min = prices.first().unwrap();
@@ -85,7 +85,7 @@ impl Solution {
                 profit = std::cmp::max(profit, prices[i] - min);
             }
         }
-        return profit;
+        profit
     }
 
     /// 0122. Best Time to Buy and Sell Stock II
@@ -134,7 +134,7 @@ impl Solution {
                 profit += prices[i] - prices[i - 1];
             }
         }
-        return profit;
+        profit
     }
 
     /// 0392. Is Subsequence
@@ -175,7 +175,7 @@ impl Solution {
             return 0;
         }
         let mut intervals_mut = intervals.clone();
-        intervals_mut.sort_by(|a, b| a.last().unwrap().cmp(&b.last().unwrap()));
+        intervals_mut.sort_by(|a, b| a.last().unwrap().cmp(b.last().unwrap()));
         let mut count = 1;
         let mut end = intervals_mut.first().unwrap().last().unwrap();
         for i in 1..intervals_mut.len() {
@@ -186,7 +186,7 @@ impl Solution {
             count += 1;
             end = intervals_mut[i].last().unwrap();
         }
-        return intervals_mut.len() as i32 - count;
+        intervals_mut.len() as i32 - count
     }
 
     /// 0452. Minimum Number of Arrows to Burst Balloons
@@ -209,7 +209,7 @@ impl Solution {
             return 0;
         }
         let mut points_mut = points.clone();
-        points_mut.sort_by(|a, b| a.last().unwrap().cmp(&b.last().unwrap()));
+        points_mut.sort_by(|a, b| a.last().unwrap().cmp(b.last().unwrap()));
         let mut count = 1;
         let mut end = points_mut.first().unwrap().last().unwrap();
         for i in 1..points_mut.len() {
@@ -220,7 +220,7 @@ impl Solution {
             count += 1;
             end = points_mut[i].last().unwrap();
         }
-        return count;
+        count
     }
 
     /// 0455. Assign Cookies
@@ -255,15 +255,11 @@ impl Solution {
             for gi in 0..g.len() {
                 // Find the one for this cookie
                 // Greedy find the largest one the cookie can content
-                if !gused[gi] {
-                    if si >= g[gi] {
-                        if now < 0 {
-                            now = gi as i32;
-                        } else {
-                            if g[gi] > g[now as usize] {
-                                now = gi as i32;
-                            }
-                        }
+                if !gused[gi] && si >= g[gi] {
+                    if now < 0 {
+                        now = gi as i32;
+                    } else if g[gi] > g[now as usize] {
+                        now = gi as i32;
                     }
                 }
             }
@@ -272,7 +268,7 @@ impl Solution {
                 gused[now as usize] = true;
             }
         }
-        return count;
+        count
 
         // Another way to find the cookie for this child
         // Greedy find the minimum one the child can content
@@ -329,14 +325,12 @@ impl Solution {
             } else {
                 flowerbed[i + 1]
             };
-            if flowerbed[i] == 0 {
-                if prev == 0 && next == 0 {
-                    r -= 1;
-                    flowerbed[i] = 1;
-                }
+            if flowerbed[i] == 0 && prev == 0 && next == 0 {
+                r -= 1;
+                flowerbed[i] = 1;
             }
         }
-        return r <= 0;
+        r <= 0
     }
 
     /// 0665. Non-decreasing Array
@@ -362,7 +356,7 @@ impl Solution {
                 nums[i] = nums[i - 1];
             }
         }
-        return c <= 1;
+        c <= 1
     }
 
     /// 0763. Partition Labels
@@ -378,7 +372,7 @@ impl Solution {
                 current = i;
             }
         }
-        return current;
+        current
     }
     fn partition_extend(s: &String, left: usize, right: usize) -> usize {
         // the partition from left
@@ -387,10 +381,10 @@ impl Solution {
         }
         let mut bound = right;
         for j in left + 1..right {
-            let current = Self::partition_range(&s, j);
+            let current = Self::partition_range(s, j);
             bound = std::cmp::max(bound, current);
         }
-        return Self::partition_extend(&s, right, bound);
+        Self::partition_extend(s, right, bound)
     }
     pub fn partition_labels(s: String) -> Vec<i32> {
         let mut r: Vec<i32> = vec![];
@@ -402,7 +396,7 @@ impl Solution {
             r.push((bound - i + 1) as i32);
             i = bound + 1;
         }
-        return r;
+        r
     }
 }
 

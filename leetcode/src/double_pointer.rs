@@ -94,7 +94,7 @@ impl Solution {
         //   space complexity will be O(1).
         // Refer to https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/discuss/51239/Share-my-java-AC-solution./51905
         // The O(N) solution
-        let mut i = 0 as usize;
+        let mut i = 0_usize;
         let mut j = numbers.len() - 1;
         while i < j {
             let now = numbers[i] + numbers[j];
@@ -106,7 +106,7 @@ impl Solution {
                 j -= 1;
             }
         }
-        return vec![];
+        vec![]
     }
 
     /// 0345. Reverse Vowels of a String
@@ -114,10 +114,10 @@ impl Solution {
     /// vowels of a string.
     pub fn reverse_vowels(s: String) -> String {
         let mut r = s.clone();
-        if s.len() == 0 {
+        if s.is_empty() {
             return r;
         }
-        let vowels = vec!['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+        let vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
         let mut i = 0;
         let mut j = s.len() - 1;
         while i < j {
@@ -136,7 +136,7 @@ impl Solution {
                 j -= 1;
             }
         }
-        return r;
+        r
     }
 
     /// 0524. Longest Word in Dictionary through Deleting
@@ -159,23 +159,21 @@ impl Solution {
             }
             j += 1;
         }
-        return i == c1.len();
+        i == c1.len()
     }
     pub fn find_longest_word(s: String, d: Vec<String>) -> String {
         let mut last = String::new();
         for w in &d {
-            let is_matched = Self::matched(&w, &s);
+            let is_matched = Self::matched(w, &s);
             if is_matched {
                 if last.len() < w.len() {
-                    last = w.clone();
-                } else if last.len() == w.len() {
-                    if last > w.to_string() {
-                        last = w.clone();
-                    }
+                    last.clone_from(w);
+                } else if last.len() == w.len() && last > *w {
+                    last.clone_from(w);
                 }
             }
         }
-        return last;
+        last
     }
 
     /// 0633. Sum of Square Numbers
@@ -215,7 +213,7 @@ impl Solution {
                 j -= 1;
             }
         }
-        return false;
+        false
     }
 
     /// 0680. Valid Palindrome II
@@ -233,7 +231,7 @@ impl Solution {
             i += 1;
             j -= 1;
         }
-        return true;
+        true
     }
     pub fn valid_palindrome(s: String) -> bool {
         // if s.len() < 3 {
@@ -277,7 +275,7 @@ impl Solution {
             i += 1;
             j -= 1;
         }
-        return true;
+        true
     }
 }
 
@@ -302,8 +300,8 @@ mod testing {
         let v = vec![2, 7, 11, 15];
         let i: i32 = 9;
         assert!(
-            i == (v[(Solution::two_sum_2(&v, i)[0 as usize] - 1) as usize]
-                + v[(Solution::two_sum_2(&v, i)[1 as usize] - 1) as usize])
+            i == (v[(Solution::two_sum_2(&v, i)[0_usize] - 1) as usize]
+                + v[(Solution::two_sum_2(&v, i)[1_usize] - 1) as usize])
         );
     }
 
@@ -331,7 +329,7 @@ mod testing {
     #[test]
     fn test_judge_square_sum() {
         let num = 5;
-        assert!(true == Solution::judge_square_sum(num));
+        assert!(Solution::judge_square_sum(num));
     }
 
     #[test]

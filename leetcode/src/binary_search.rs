@@ -13,12 +13,12 @@ impl Solution {
         }
         let mid = left + (right - left) / 2;
         if mid * mid > x {
-            return Self::my_sqrt_search(x, left, mid);
+            Self::my_sqrt_search(x, left, mid)
         } else {
             if (mid + 1) * (mid + 1) > x {
                 return mid as i32;
             }
-            return Self::my_sqrt_search(x, mid + 1, right);
+            Self::my_sqrt_search(x, mid + 1, right)
         }
     }
     pub fn my_sqrt(x: i32) -> i32 {
@@ -53,7 +53,7 @@ impl Solution {
             }
             mid = left + (right - left) / 2;
         }
-        return right as i32;
+        right as i32
     }
 
     /// 0540. Single Element in a Sorted Array
@@ -70,9 +70,9 @@ impl Solution {
         // even too.
         let mid_ = if mid % 2 == 1 { mid - 1 } else { mid };
         if nums[mid_] == nums[mid_ + 1] {
-            return Self::single_non_duplicate_(nums, mid_ + 2, hi);
+            Self::single_non_duplicate_(nums, mid_ + 2, hi)
         } else {
-            return Self::single_non_duplicate_(nums, lo, mid_);
+            Self::single_non_duplicate_(nums, lo, mid_)
         }
     }
     pub fn single_non_duplicate(nums: Vec<i32>) -> i32 {
@@ -94,7 +94,7 @@ impl Solution {
         // }
         // return nums[mid];
 
-        return nums[Self::single_non_duplicate_(&nums, 0, nums.len() - 1)];
+        nums[Self::single_non_duplicate_(&nums, 0, nums.len() - 1)]
     }
 
     /// 0744. Find Smallest Letter Greater Than Target
@@ -114,9 +114,9 @@ impl Solution {
         }
         let mid = lo + (hi - lo) / 2;
         if letters[mid] <= target {
-            return Self::next_greatest_letter_(&letters, target, mid + 1, hi);
+            Self::next_greatest_letter_(letters, target, mid + 1, hi)
         } else {
-            return Self::next_greatest_letter_(&letters, target, lo, mid);
+            Self::next_greatest_letter_(letters, target, lo, mid)
         }
     }
     pub fn next_greatest_letter(letters: Vec<char>, target: char) -> char {
@@ -142,7 +142,7 @@ impl Solution {
         if i >= letters.len() - 1 && letters[i] <= target {
             return letters[0];
         }
-        return letters[i];
+        letters[i]
     }
 }
 
