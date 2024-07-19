@@ -5,6 +5,30 @@ use std::vec::Vec;
 struct Solution {}
 
 impl Solution {
+    /// Quick sort
+    fn pivot2(nums: &mut [i32], lo: isize, hi: isize) -> isize {
+        let pivot = nums[hi as usize];
+        let mut p = lo;
+        for i in lo..hi {
+            if nums[i as usize] < pivot {
+                nums.swap(i as usize, p as usize);
+                p += 1;
+            }
+        }
+        nums.swap(p as usize, hi as usize);
+        p
+    }
+    fn quick_sort_helper(nums: &mut [i32], lo: isize, hi: isize) {
+        if lo <= hi {
+            let p = Self::pivot2(nums, lo, hi);
+            Self::quick_sort_helper(nums, lo, p - 1);
+            Self::quick_sort_helper(nums, p + 1, hi);
+        }
+    }
+    pub fn quick_sort(nums: &mut [i32]) {
+        Self::quick_sort_helper(nums, 0, (nums.len() - 1) as isize);
+    }
+
     /// 0075. Sort Colors
     /// Given an array with n objects colored red, white or blue, sort them
     /// in-place so that objects of the same color are adjacent, with the
@@ -220,5 +244,13 @@ mod testing {
             e.insert(i);
         }
         assert_eq!(r, e);
+    }
+
+    #[test]
+    fn test_quick_sort() {
+        let mut nums = vec![2, 1, 5, 7, 3, 2, 2, 0];
+        let expected = [0, 1, 2, 2, 2, 3, 5, 7];
+        Solution::quick_sort(&mut nums);
+        assert_eq!(nums, expected);
     }
 }
