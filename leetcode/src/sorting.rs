@@ -29,6 +29,44 @@ impl Solution {
         Self::quick_sort_helper(nums, 0, (nums.len() - 1) as isize);
     }
 
+    /// Merge Sort
+    fn merge(arr1: &[i32], arr2: &[i32], ret: &mut [i32]) {
+        let mut left = 0_usize;
+        let mut right = 0_usize;
+        let mut index = 0_usize;
+
+        while left < arr1.len() && right < arr2.len() {
+            if arr1[left] < arr2[right] {
+                ret[index] = arr1[left];
+                left += 1;
+            } else {
+                ret[index] = arr2[right];
+                right += 1;
+            }
+            index += 1;
+        }
+        if left < arr1.len() {
+            ret[index..].copy_from_slice(&arr1[left..])
+        } else {
+            ret[index..].copy_from_slice(&arr2[right..])
+        }
+    }
+    pub fn merge_sort(arr: &mut [i32]) {
+        let mid = arr.len() / 2;
+        if mid == 0 {
+            return;
+        }
+
+        Self::merge_sort(&mut arr[..mid]);
+        Self::merge_sort(&mut arr[mid..]);
+
+        let mut ret = arr.to_vec();
+
+        Self::merge(&arr[..mid], &arr[mid..], &mut ret);
+
+        arr.copy_from_slice(&ret);
+    }
+
     /// 0075. Sort Colors
     /// Given an array with n objects colored red, white or blue, sort them
     /// in-place so that objects of the same color are adjacent, with the
@@ -251,6 +289,14 @@ mod testing {
         let mut nums = vec![2, 1, 5, 7, 3, 2, 2, 0];
         let expected = [0, 1, 2, 2, 2, 3, 5, 7];
         Solution::quick_sort(&mut nums);
+        assert_eq!(nums, expected);
+    }
+
+    #[test]
+    fn test_merge_sort() {
+        let mut nums = vec![2, 1, 5, 7, 3, 2, 2, 0];
+        let expected = [0, 1, 2, 2, 2, 3, 5, 7];
+        Solution::merge_sort(&mut nums);
         assert_eq!(nums, expected);
     }
 }
